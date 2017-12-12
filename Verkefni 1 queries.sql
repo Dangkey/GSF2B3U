@@ -10,6 +10,8 @@ create procedure Courselist()
 		order by courseNumber;
 	end //
 Delimiter ;
+
+call CourseList()
 -- 2:	SingleCourse()
 -- 	Birtir upplýsingar um einn ákveðin kúrs.
 --  Færibreytan er áfanganúmerið
@@ -21,6 +23,7 @@ create procedure SingleCourse(course char(10))
 	end //
 Delimiter ;
 
+call SingleCourse('STÆ403')
 -- 3:   NewCourse()
 --  Nýskráir áfanga í gagnagrunninn.
 --  Skoðið ERD myndina til að finna út hvaða gögn á að vista(hvaða færibreytur á að nota)
@@ -55,7 +58,7 @@ create procedure UpdateCourse(old_course_number char(10),course_number char(10),
     end //
     delimiter ;
 	
-	call UpdateCourse('For','GSF','GSF',3);
+	call UpdateCourse('GSF','For','For',3);
 -- 5:	DeleteCourse()
 -- Áfanganúmer(courseNumber) er notað hérna til að eyða réttum kúrs.
 -- ATH: Ef verið er að nota kúrsinn einhversstaðar(sé hann skráður á TrackCourses) þá má EKKI eyða honum.
@@ -70,7 +73,7 @@ create procedure UpdateCourse(old_course_number char(10),course_number char(10),
     end //
     delimiter ;
     
-
+call DeleteCourse('For')
 -- ********************** -- Skrifið eftirfarandi functions: --**********************
 
 -- 6:	NumberOfCourses()
@@ -87,19 +90,25 @@ create Function NumberOfCourses()
 end //
 Delimiter ;
 
-
+select NumberOfCourses()
 -- 7:	TotalTrackCredits()
 --  Fallið skilar heildar einingafjölda ákveðinnar námsbrautar(track)
 --  Senda þarf trackID inn sem færibreytu
-	create function TotalTrackCredits(trackid int)
+	Delimiter //
+create function TotalTrackCredits(trackid int)
     returns int
     begin
-    select coursecredits from courses
-join trackcourses
-on trackcourses.trackID = courses.trackID
-    where 
+    declare total_credits int;
+    set total_credits = (
+    select sum(coursecredits) from courses
+join trackcourses on trackcourses.courseNumber = courses.courseNumber
+join tracks on trackcourses.trackID = tracks.trackID
+where trackcourses.trackID = trackid);
+return total_credits;
+end //
+Delimiter ;
 
-
+select TotalTrackCredits(9)
 -- 8:   HighestCredits()
 -- Fallið skilar einingafjölda þess námskeiðs(þeirra námskeiða) sem hafa flestar eininar.
 -- ATH:  Það geta fleiri en einn kúrs verið með sama einingafjöldann. :að á ekki að hafa 
