@@ -9,9 +9,9 @@ join studentcourses
 on studentcourses.coursenumber = courses.courseNumber
 join students
 on studentcourses.studentid = students.student_id
-where studentcourses.lokiğ = 0
+where studentcourses.lokiÃ° = 0  and studentcourses.studentID = student
 limit 5;
 end //
 delimiter ;
  
-call ElectedCourses(1);
+call ElectedCourses(2);
