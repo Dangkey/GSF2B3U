@@ -71,6 +71,10 @@ begin
 end //
 delimiter ;
 
+
+insert into restrictors
+Values
+('FOR','FOR',1)
 -- 3. Skrifið samskonar trigger fyrir update aðgerð í töfluna Restrictors.
 
 Delimiter //
@@ -93,7 +97,7 @@ create procedure samtals_einingar(
 student int(11)
 )
 begin
-select sum(courseCredits) from courses
+select students.name, sum(courseCredits) from courses
 join studentcourses
 on studentcourses.courseNumber = courses.courseNumber
 join students
