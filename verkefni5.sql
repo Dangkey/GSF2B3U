@@ -1,3 +1,4 @@
+--Procedure sem kallar í nemandan með ID sem er kallað í og sýnir áfangana
 Delimiter //
 create procedure ElectedCourses(
 student int(11)
