@@ -1,4 +1,4 @@
---Procedure sem kallar í nemandan með ID sem er kallað í og sýnir áfangana
+--Procedure sem kallar í nemandan með ID sem er kallað í og sýnir áfangana sem hann er með valda en ekki búinn með
 Delimiter //
 create procedure ElectedCourses(
 student int(11)
