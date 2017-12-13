@@ -1,3 +1,4 @@
+--Procedure til að sýna schoolInfo
 Delimiter //
 create procedure get_schoolInfo(
 school int
@@ -10,6 +11,7 @@ delimiter ;
 
 call get_schoolInfo(1);
 
+--Procedure sem tekur upplýsingar um nemanda og setur það í JSON format
 Delimiter //
 create procedure get_studentJSON(
 student int
